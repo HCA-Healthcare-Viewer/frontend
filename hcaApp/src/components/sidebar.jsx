@@ -65,14 +65,6 @@ const Sidebar = ({
         {!isCollapsed && <span>Home</span>}
       </button>
 
-      <button
-        className={`tab-btn ${activeTab === "Login2" ? "active" : ""}`}
-        onClick={() => handleTabClick("Login2")}
-      >
-        <LoginIcon />
-        {!isCollapsed && <span>Login</span>}
-      </button>
-
       <div>
         <button
           className={`tab-btn ${activeTab === "Upload" ? "active" : ""}`}

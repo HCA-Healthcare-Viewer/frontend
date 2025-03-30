@@ -125,13 +125,13 @@ export default function Message({ data, compareData, controlId, index, onMRNClic
           </h3>
           {(!label || label === 'Deidentified') && (
             <button
+              className={`compare-button ${comparing ? 'active' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleCompare();
               }}
-              style={{ marginRight: '10px' }}
             >
-              {comparing ? 'Exit Compare' : 'Compare'}
+              {comparing ? '✕ Exit Compare' : '↔ Compare'}
             </button>
           )}
           <button

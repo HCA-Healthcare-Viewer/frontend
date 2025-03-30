@@ -200,14 +200,15 @@
 
 .subfield-value {
     font-family: monospace;
-    font-size: 0.9rem;
-    color: #333;
+    font-size: 0.95rem;
+    color: #212121;
     word-break: break-word;
-    background-color: #f3f3f3;
-    padding: 4px;
-    border-radius: 2px;
+    background-color: #f8f8f8;
+    padding: 6px 8px;
+    border-radius: 3px;
     max-height: 100px;
     overflow-y: auto;
+    border-left: 3px solid #7A3115;
 }
 
 .no-subfields {
@@ -223,33 +224,40 @@
 /* Section Styling */
 .message-section {
     margin-bottom: 20px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #d0d0d0;
     border-radius: 6px;
     overflow: hidden;
     background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    transition: box-shadow 0.2s ease;
+}
+
+.message-section:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.18);
 }
 
 .section-title {
-    background-color: #f0f4f8;
-    color: #2c3e50;
-    padding: 8px 12px;
+    background-color: #e1eaf5;
+    color: #1a2942;
+    padding: 10px 14px;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 2px solid #c0d6eb;
     display: flex;
     align-items: center;
+    letter-spacing: 0.3px;
 }
 
 .section-title::before {
     content: "";
     display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: #add6ff;
-    margin-right: 8px;
+    width: 10px;
+    height: 10px;
+    background-color: #7A3115;
+    margin-right: 10px;
     border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(122, 49, 21, 0.2);
 }
 
 /* Field Groups Styling */
@@ -261,40 +269,50 @@
 }
 
 .field-group {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #d0d0d0;
     border-radius: 6px;
     overflow: hidden;
     background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .field-group:hover {
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     transform: translateY(-2px);
 }
 
 .field-group-header {
-    background-color: #f5f8fa;
-    color: #2c3e50;
-    padding: 6px 10px;
-    font-size: 0.9rem;
+    background-color: #f0f4f8;
+    color: #1a2942;
+    padding: 8px 12px;
+    font-size: 0.95rem;
     font-weight: 600;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 2px solid #c0d6eb;
+    letter-spacing: 0.2px;
 }
 
 .field-group-content {
     display: flex;
     flex-direction: column;
-    padding: 8px;
-    gap: 8px;
+    padding: 10px;
+    gap: 10px;
+    background-color: #f9fbff;
 }
 
 /* Updated Subfield item for the field-group context */
 .field-group-content .subfield-item {
     margin: 0;
-    padding: 4px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 6px;
+    border-bottom: 1px solid #e5e9f0;
+    background-color: white;
+    border-radius: 4px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.field-group-content .subfield-item:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 
 .field-group-content .subfield-item:last-child {
@@ -350,4 +368,41 @@
     border-width: 5px;
     border-style: solid;
     border-color: #e8f0fe transparent transparent transparent;
+}
+
+/* Compare Button Styling */
+.compare-button {
+  background-color: #add6ff;
+  color: #2c3e50;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.compare-button:hover {
+  background-color: #8bc4ff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.compare-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.compare-button.active {
+  background-color: #7A3115;
+  color: white;
+}
+
+.compare-button.active:hover {
+  background-color: #9E4019;
 }
