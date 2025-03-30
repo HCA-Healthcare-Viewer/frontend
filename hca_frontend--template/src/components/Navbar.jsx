@@ -25,6 +25,12 @@ const Navbar = () => {
         fontWeight: 'bold',
         paddingLeft: '.5rem'
       }}>Login</Link>
+      <Link to="/textDownload" style={{ 
+        color: '#27262c',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        paddingLeft: '.5rem'
+      }}>Text Download</Link>
     </nav>
   )
 }
