@@ -68,7 +68,7 @@ const useStyles = makeStyles({
             color: '#00FF00',                           // Pagination Arrow Color (Green)
         },
         '& .MuiDataGrid-footerContainer': {
-            backgroundColor: '#AAAAAA',                 // DataGrid Footer Background Color (Gray)
+            backgroundColor: '#AAAAAA',                 // DataGrid Background Color (Gray)
 },
     },
 

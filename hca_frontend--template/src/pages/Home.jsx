@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
 import '../pages/Home.css';
 import FilterMenu from '../components/filterMenu';
 import Message from '../components/message';
+import Header from '../components/header';
+import Footer from '../components/footer';
+import Sidebar from '../components/sidebar';
 
 export default function Home() {
   const [messages, setMessages] = useState(null);
@@ -57,7 +59,7 @@ export default function Home() {
     else if (typeof messages === 'object' && messages !== null) {
       return (
         <div className="messages-container">
-          {Object.entries(messages).map(([key, value], index) => (
+          {Object.entries(messages).map(([key, value]) => (
             <Message 
               key={key} 
               data={value} 
@@ -74,34 +76,26 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <header>
-        <h2>HCA Data Dashboard</h2>
-        <Navbar />
-      </header>
+      <Header />
+  
       <div id="wrapper">
-        <div id="sidebar">
-          <div className="file-upload">
-            <label htmlFor="hl7-file-upload">Upload HL7 File:</label>
-            <input 
-              type="file" 
-              id="hl7-file-upload" 
-              accept=".hl7,.txt"
-              onChange={handleFileChange}
-            />
-          </div>
-        </div>
+        <Sidebar onFileChange={handleFileChange} />
+  
         <div id="main-content">
           <div id="filter-bar">
             <FilterMenu filter_type="Message Control ID" position="first" />
             <FilterMenu filter_type="MRN" position="middle" />
             <FilterMenu filter_type="Last Name" position="last" />
           </div>
+  
           <div id="message-display">
             {error && <p className="error">{error}</p>}
             {renderMessages()}
           </div>
         </div>
       </div>
+  
+      <Footer />
     </div>
   );
 }
