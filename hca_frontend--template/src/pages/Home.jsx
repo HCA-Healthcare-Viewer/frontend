@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
 import '../pages/Home.css';
 import FilterMenu from '../components/filterMenu';
 import Message from '../components/message';
 import Header from '../components/header';
-import Footer from '../components/footer';
 import Sidebar from '../components/sidebar';
 
 export default function Home() {
@@ -133,23 +131,17 @@ export default function Home() {
       <Header />
   
       <div id="wrapper">
-        <Sidebar onFileChange={handleFileChange} />
+        <div className="sidebar-container">
+          <Sidebar onFileChange={handleFileChange} />
+        </div>
   
-        <div id="main-content">
-          <div id="filter-bar">
-            <FilterMenu filter_type="Message Control ID" position="first" />
-            <FilterMenu filter_type="MRN" position="middle" />
-            <FilterMenu filter_type="Last Name" position="last" />
-          </div>
-  
+        <div id="main-content">  
           <div id="message-display">
             {error && <p className="error">{error}</p>}
             {renderMessages()}
           </div>
         </div>
       </div>
-  
-      <Footer />
     </div>
   );
 }
