@@ -40,9 +40,9 @@ export default function Home() {
       setError(err.message);
     }
 
-    // Second fetch for original data (for testing, same API is used)
+    // Second fetch for original data (pass deidentify=false)
     try {
-      const response2 = await fetch('http://localhost:8000/get_json', {
+      const response2 = await fetch('http://localhost:8000/get_json?deidentify=false', {
         method: 'POST',
         body: formData,
       });
