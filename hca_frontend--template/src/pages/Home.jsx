@@ -5,7 +5,9 @@ import FilterMenu from '../components/filterMenu';
 import Message from '../components/message';
 
 export default function Home() {
-  const [messages, setMessages] = useState(null);
+  // Store the two payloads separately
+  const [messagesDeidentified, setMessagesDeidentified] = useState(null);
+  const [messagesOriginal, setMessagesOriginal] = useState(null);
   const [error, setError] = useState(null);
   // New state to keep track of how many messages to display
   const [visibleCount, setVisibleCount] = useState(10);
@@ -17,8 +19,8 @@ export default function Home() {
     const formData = new FormData();
     formData.append('file', file);
 
+    // First fetch for deidentified data
     try {
-      // Adjust the URL if your backend is on a different domain/port
       const response = await fetch('http://localhost:8000/get_json', {
         method: 'POST',
         body: formData,
@@ -29,37 +31,59 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setMessages(data);
+      setMessagesDeidentified(data);
       setError(null);
       // Reset visibleCount when new messages are loaded
       setVisibleCount(10);
     } catch (err) {
-      console.error('Error uploading file:', err);
+      console.error('Error uploading deidentified file:', err);
+      setError(err.message);
+    }
+
+    // Second fetch for original data (for testing, same API is used)
+    try {
+      const response2 = await fetch('http://localhost:8000/get_json', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response2.ok) {
+        throw new Error(`Upload failed: ${response2.statusText}`);
+      }
+
+      const data2 = await response2.json();
+      setMessagesOriginal(data2);
+      setError(null);
+      setVisibleCount(10);
+    } catch (err) {
+      console.error('Error uploading original file:', err);
       setError(err.message);
     }
   };
 
-  // Function to render messages by iterating over the JSON data with lazy loading
+  // Function to render messages with lazy loading and pass compareData
   const renderMessages = () => {
-    if (!messages) return 'Upload a file to view messages';
+    if (!messagesDeidentified) return 'Upload a file to view messages';
     
-    // Check if messages is an array
-    if (Array.isArray(messages)) {
+    // For array data
+    if (Array.isArray(messagesDeidentified)) {
       return (
         <div className="messages-container">
-          {messages.slice(0, visibleCount).map((message, index) => (
+          {messagesDeidentified.slice(0, visibleCount).map((message, index) => (
             <Message 
               key={index} 
               data={message} 
               index={index} 
+              controlId={index}
+              compareData={messagesOriginal ? messagesOriginal[index] : null}
             />
           ))}
         </div>
       );
     } 
-    // If messages is an object with keys
-    else if (typeof messages === 'object' && messages !== null) {
-      const entries = Object.entries(messages);
+    // For object data with keys
+    else if (typeof messagesDeidentified === 'object' && messagesDeidentified !== null) {
+      const entries = Object.entries(messagesDeidentified);
       return (
         <div className="messages-container">
           {entries.slice(0, visibleCount).map(([key, value], index) => (
@@ -67,6 +91,8 @@ export default function Home() {
               key={key} 
               data={value} 
               controlId={key}
+              index={index}
+              compareData={messagesOriginal ? messagesOriginal[key] : null}
             />
           ))}
         </div>
@@ -74,7 +100,7 @@ export default function Home() {
     }
     
     // Fallback for other data types
-    return <pre>{JSON.stringify(messages, null, 2)}</pre>;
+    return <pre>{JSON.stringify(messagesDeidentified, null, 2)}</pre>;
   };
 
   // useEffect to implement lazy loading on scroll

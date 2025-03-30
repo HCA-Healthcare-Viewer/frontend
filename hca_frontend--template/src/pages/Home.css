@@ -172,7 +172,7 @@ header h2 {
 /* Message dropdown styles */
 .message-header {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     cursor: pointer;
     padding-bottom: 10px;
@@ -194,6 +194,8 @@ header h2 {
     justify-content: center;
     border-radius: 50%;
     background-color: #f0f0f0;
+    margin-left: auto;
+
 }
 
 .expand-button:hover {
