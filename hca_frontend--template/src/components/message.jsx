@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 /**
- * Processes a segment with the provided configuration
- * @param {Object} config - Configuration object for the segment
- * @param {string} config.id - Segment identifier
- * @param {Object} config.options - Additional options for segment processing
- * @returns {Object} The processed segment data
+ * Individual subfield value component
+ * @param {Object} props - Component props
+ * @param {string} props.value - The subfield value
+ * @param {string} props.fieldId - The field identifier (optional)
  */
-function segment(config) {
-    // Process the segment using the config dictionary
-    console.log('Processing segment with config:', config);
-    return {
-        // Return processed data
-        id: config.id,
-        processed: true
-    };
+function SubfieldValue({ value, fieldId }) {
+    return (
+        <div className="subfield-item">
+            <div className="subfield-value" title={fieldId || ""}>{value}</div>
+            {fieldId && <div className="subfield-id">{fieldId}</div>}
+        </div>
+    );
 }
 
 /**
- * Processes a field with the provided configuration
- * @param {Object} config - Configuration object for the field
- * @param {string} config.name - Field name
- * @param {string} config.value - Field value
- * @param {Object} config.options - Additional options for field processing
- * @returns {Object} The processed field data
+ * Field group component to display values from the same parent field
+ * @param {Object} props - Component props
+ * @param {string} props.fieldName - The name of the parent field (e.g., MSH-9)
+ * @param {Array} props.subfields - Array of subfield objects with fieldId and value
  */
-function field(config) {
-    // Process the field using the config dictionary
-    console.log('Processing field with config:', config);
-    return {
-        // Return processed data
-        name: config.name,
-        value: config.value,
-        processed: true
-    };
+function FieldGroup({ fieldName, subfields }) {
+    return (
+        <div className="field-group">
+            <div className="field-group-header">{fieldName}</div>
+            <div className="field-group-content">
+                {subfields.map((subfield, index) => (
+                    <SubfieldValue 
+                        key={index}
+                        value={subfield.value} 
+                        fieldId={subfield.fieldId} 
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }
 
 /**
@@ -57,6 +58,66 @@ export default function Message({ data, controlId, index }) {
     
     // Extract summary data if it exists
     const summaryData = data.summary || {};
+
+    // Get all sections with their detailed subfield values grouped by parent field
+    const getSectionsWithGroupedSubfields = (obj) => {
+        const sections = {};
+        
+        // Check if the object has a name property (like "MSH", "PID", etc.)
+        if (obj.name && typeof obj.name === 'string') {
+            const sectionName = obj.name;
+            sections[sectionName] = {};
+            
+            // If this object has fields
+            if (obj.fields && typeof obj.fields === 'object') {
+                // Process each field
+                Object.entries(obj.fields).forEach(([fieldKey, fieldValue]) => {
+                    // If the field has Subfields
+                    if (fieldValue && typeof fieldValue === 'object' && fieldValue.Subfields) {
+                        // Extract the field number (e.g., MSH-9)
+                        const fieldNumber = fieldKey; // e.g., MSH-1, MSH-9
+                        
+                        // Skip if no subfields to process
+                        if (!Object.keys(fieldValue.Subfields).length) return;
+                        
+                        // Initialize the field group if it doesn't exist
+                        if (!sections[sectionName][fieldNumber]) {
+                            sections[sectionName][fieldNumber] = [];
+                        }
+                        
+                        // Add each subfield to its parent field group
+                        Object.entries(fieldValue.Subfields).forEach(([subfieldKey, subfieldValue]) => {
+                            if (typeof subfieldValue === 'string') {
+                                sections[sectionName][fieldNumber].push({
+                                    fieldId: subfieldKey,
+                                    value: subfieldValue
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        
+        // Process other properties for nested objects
+        Object.entries(obj).forEach(([key, value]) => {
+            if (value && typeof value === 'object' && key !== 'fields') {
+                const nestedSections = getSectionsWithGroupedSubfields(value);
+                // Merge nested sections with current sections
+                Object.entries(nestedSections).forEach(([nestedSectionKey, nestedFieldGroups]) => {
+                    if (!sections[nestedSectionKey]) {
+                        sections[nestedSectionKey] = {};
+                    }
+                    // Merge field groups
+                    Object.entries(nestedFieldGroups).forEach(([nestedFieldKey, nestedSubfields]) => {
+                        sections[nestedSectionKey][nestedFieldKey] = nestedSubfields;
+                    });
+                });
+            }
+        });
+        
+        return sections;
+    };
 
     return (
         <div className="message-item">
@@ -86,19 +147,29 @@ export default function Message({ data, controlId, index }) {
                 )}
             </div>
             
-            {/* Display full message details when expanded */}
+            {/* Display sections with field groups when expanded */}
             {expanded && (
                 <div className="message-details">
-                    {Object.entries(data).filter(([key]) => key !== 'summary').map(([key, value], i) => (
-                        <div key={i} className="message-field">
-                            <strong>{key}:</strong> 
-                            {typeof value === 'object' ? (
-                                <pre>{JSON.stringify(value, null, 2)}</pre>
-                            ) : (
-                                <span>{value}</span>
-                            )}
+                    {Object.entries(getSectionsWithGroupedSubfields(data)).map(([sectionName, fieldGroups], sectionIndex) => (
+                        <div key={sectionIndex} className="message-section">
+                            <h4 className="section-title">{sectionName}</h4>
+                            <div className="fields-grid">
+                                {Object.entries(fieldGroups).map(([fieldName, subfields], fieldIndex) => (
+                                    <FieldGroup 
+                                        key={fieldIndex}
+                                        fieldName={fieldName}
+                                        subfields={subfields}
+                                    />
+                                ))}
+                                {Object.keys(fieldGroups).length === 0 && (
+                                    <div className="no-subfields">No fields available for this section</div>
+                                )}
+                            </div>
                         </div>
                     ))}
+                    {Object.keys(getSectionsWithGroupedSubfields(data)).length === 0 && (
+                        <div className="no-subfields">No sections with values available</div>
+                    )}
                 </div>
             )}
         </div>
