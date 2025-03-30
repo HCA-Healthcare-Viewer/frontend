@@ -91,7 +91,7 @@ const useStyles = makeStyles({
     },
 });
 
-// ✅ Responsive Columns
+// Responsive Columns
 const columns = [
     {
         field: 'id',
@@ -122,7 +122,11 @@ const columns = [
 
 
 const rows = [
-
+    { id: 1, originalTxt: 'MSH|^~&|MegaReg|', deIdentifiedTxt: 'SuperOE|XYZImgCtr|20060529090131-0500|' },
+    { id: 2, originalTxt: 'OBX|1|NM|^Body Height||1.80|m^Meter^ISO+||N|||F', deIdentifiedTxt: 'OBX|2|NM|^Body Weight||79|kg^Kilogram^ISO+||N|||F' },
+    { id: 3, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
+    { id: 4, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
+    { id: 5, originalTxt: 'PID|1||123456789^^^MegaReg', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
 ];
 
 
