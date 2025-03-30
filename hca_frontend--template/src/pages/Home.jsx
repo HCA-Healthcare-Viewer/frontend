@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import '../pages/Home.css';
 import FilterMenu from '../components/filterMenu';
+import Message from '../components/message';
 
 export default function Home() {
   const [messages, setMessages] = useState(null);
@@ -34,6 +35,43 @@ export default function Home() {
     }
   };
 
+  // Function to render messages by iterating over the JSON data
+  const renderMessages = () => {
+    if (!messages) return 'Upload a file to view messages';
+    
+    // Check if messages is an array
+    if (Array.isArray(messages)) {
+      return (
+        <div className="messages-container">
+          {messages.map((message, index) => (
+            <Message 
+              key={index} 
+              data={message} 
+              index={index} 
+            />
+          ))}
+        </div>
+      );
+    } 
+    // If messages is an object with keys
+    else if (typeof messages === 'object' && messages !== null) {
+      return (
+        <div className="messages-container">
+          {Object.entries(messages).map(([key, value], index) => (
+            <Message 
+              key={key} 
+              data={value} 
+              controlId={key}
+            />
+          ))}
+        </div>
+      );
+    }
+    
+    // Fallback for other data types
+    return <pre>{JSON.stringify(messages, null, 2)}</pre>;
+  };
+
   return (
     <div className="home-container">
       <header>
@@ -60,11 +98,7 @@ export default function Home() {
           </div>
           <div id="message-display">
             {error && <p className="error">{error}</p>}
-            {messages ? (
-              <pre>{JSON.stringify(messages, null, 2)}</pre>
-            ) : (
-              'insert messages here'
-            )}
+            {renderMessages()}
           </div>
         </div>
       </div>
