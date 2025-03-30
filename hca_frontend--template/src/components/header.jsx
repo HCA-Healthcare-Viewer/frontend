@@ -38,8 +38,6 @@ const Header = () => {
         />
         <Typography 
           sx={{ 
-            fontWeight: 'bold', 
-            color: 'white',
             fontSize: '1.125rem',
             textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)',
             letterSpacing: '0.8px',

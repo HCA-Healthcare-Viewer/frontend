@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 
 /**
  * Individual subfield value component
- * @param {Object} props - Component props
- * @param {string} props.value - The subfield value
- * @param {string} props.fieldId - The field identifier (optional)
  */
 function SubfieldValue({ value, fieldId }) {
   return (
@@ -17,9 +14,6 @@ function SubfieldValue({ value, fieldId }) {
 
 /**
  * Field group component to display values from the same parent field
- * @param {Object} props - Component props
- * @param {string} props.fieldName - The name of the parent field (e.g., MSH-9)
- * @param {Array} props.subfields - Array of subfield objects with fieldId and value
  */
 function FieldGroup({ fieldName, subfields }) {
   return (
@@ -39,30 +33,25 @@ function FieldGroup({ fieldName, subfields }) {
 }
 
 /**
- * Message component to display a single HL7 message
- * @param {Object} props - Component props
- * @param {Object} props.data - The message data to display
- * @param {Object} props.compareData - The second json message for comparison
- * @param {string} props.controlId - Control ID of the message
- * @param {number} props.index - Index of the message in the list
+ * Message component to display a single HL7 message.
+ * Now includes an onMRNClick prop so that when the MRN field is clicked,
+ * it will update the filter in the sidebar.
  */
-export default function Message({ data, compareData, controlId, index }) {
+export default function Message({ data, compareData, controlId, index, onMRNClick }) {
   const [expanded, setExpanded] = useState(false);
   const [comparing, setComparing] = useState(false);
   
   if (!data) return null;
 
-  // Toggle expanded state
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
 
-  // Toggle compare mode
   const toggleCompare = () => {
     setComparing(!comparing);
   };
   
-  // Helper to extract MCID:
+  // Helper to extract MCID
   const extractMCID = (msgData) => {
     if (controlId) return controlId;
     if (
@@ -79,24 +68,20 @@ export default function Message({ data, compareData, controlId, index }) {
 
   const mcid = extractMCID(data);
 
-  // Function to get all sections with grouped subfields for a given message object
+  // Get sections with grouped subfields
   const getSectionsWithGroupedSubfields = (obj) => {
     const sections = {};
-    
     if (obj.name && typeof obj.name === 'string') {
       const sectionName = obj.name;
       sections[sectionName] = {};
-      
       if (obj.fields && typeof obj.fields === 'object') {
         Object.entries(obj.fields).forEach(([fieldKey, fieldValue]) => {
           if (fieldValue && typeof fieldValue === 'object' && fieldValue.Subfields) {
             const fieldNumber = fieldKey;
             if (!Object.keys(fieldValue.Subfields || {}).length) return;
-            
             if (!sections[sectionName][fieldNumber]) {
               sections[sectionName][fieldNumber] = [];
             }
-            
             Object.entries(fieldValue.Subfields).forEach(([subfieldKey, subfieldValue]) => {
               if (typeof subfieldValue === 'string') {
                 sections[sectionName][fieldNumber].push({
@@ -109,7 +94,6 @@ export default function Message({ data, compareData, controlId, index }) {
         });
       }
     }
-    
     Object.entries(obj).forEach(([key, value]) => {
       if (value && typeof value === 'object' && key !== 'fields') {
         const nestedSections = getSectionsWithGroupedSubfields(value);
@@ -123,13 +107,10 @@ export default function Message({ data, compareData, controlId, index }) {
         });
       }
     });
-    
     return sections;
   };
 
-  // Helper function to render the message content (header, summary, details)
-  // The header now shows the MCID with the Compare button immediately to its right,
-  // followed by the Expand button.
+  // Render the message content (header, summary, details)
   const renderMessageContent = (msgData, label) => {
     const msgSummary = msgData.summary || {};
     return (
@@ -148,7 +129,7 @@ export default function Message({ data, compareData, controlId, index }) {
                 e.stopPropagation();
                 toggleCompare();
               }}
-              style={{ marginRight: '0px' }}
+              style={{ marginRight: '10px' }}
             >
               {comparing ? 'Exit Compare' : 'Compare'}
             </button>
@@ -167,7 +148,20 @@ export default function Message({ data, compareData, controlId, index }) {
         <div className="message-summary">
           {Object.entries(msgSummary).map(([key, value], i) => (
             <div key={i} className="message-field-summary">
-              <strong>{key}:</strong> <span>{value}</span>
+              <strong>{key}:</strong> {key === "MRN" ? (
+                <span
+                  className="mrn-clickable"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMRNClick && onMRNClick(value);
+                  }}
+                  style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                >
+                  {value}
+                </span>
+              ) : (
+                <span>{value}</span>
+              )}
             </div>
           ))}
           {Object.keys(msgSummary).length === 0 && (
@@ -210,7 +204,6 @@ export default function Message({ data, compareData, controlId, index }) {
     );
   };
 
-  // Non-compare view
   if (!comparing) {
     return (
       <div className="message-item">
@@ -218,7 +211,6 @@ export default function Message({ data, compareData, controlId, index }) {
       </div>
     );
   } else {
-    // Compare mode: side-by-side rendering
     return (
       <div className="message-item compare-mode">
         <div style={{ display: 'flex' }}>

@@ -11,20 +11,30 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./sidebar.css";
 
-const Sidebar = ({ onFileChange }) => {
+const Sidebar = ({
+  onFileChange,
+  filterMRN,
+  onMRNFilterChange,
+  filterMCID,
+  onMCIDFilterChange,
+  filterLastName,
+  onLastNameFilterChange,
+}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Home");
+
+  // Local state for Message Control ID and Last Name textfields
+  const [localMCID, setLocalMCID] = useState(filterMCID || "");
+  const [localLastName, setLocalLastName] = useState(filterLastName || "");
 
   const navigate = useNavigate();
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
-
     if (tabName !== "Filter") {
       setIsFilterOpen(false);
     }
-
     // Navigate to different pages
     switch (tabName) {
       case "Home":
@@ -103,15 +113,40 @@ const Sidebar = ({ onFileChange }) => {
 
       {!isCollapsed && isFilterOpen && (
         <div className="filter-submenu">
-          <button className="submenu-btn" onClick={() => handleTabClick("Message Control ID")}>
-            Message Control ID
-          </button>
-          <button className="submenu-btn" onClick={() => handleTabClick("MRN")}>
-            MRN
-          </button>
-          <button className="submenu-btn" onClick={() => handleTabClick("Last Name")}>
-            Last Name
-          </button>
+          {/* Message Control ID Textfield */}
+          <input
+            type="text"
+            className="submenu-input"
+            placeholder="Message Control ID"
+            value={localMCID}
+            onChange={(e) => setLocalMCID(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onMCIDFilterChange(localMCID);
+              }
+            }}
+          />
+          {/* MRN Textfield (unchanged) */}
+          <input
+            type="text"
+            className="submenu-input"
+            placeholder="MRN"
+            value={filterMRN}
+            onChange={(e) => onMRNFilterChange(e.target.value)}
+          />
+          {/* Last Name Textfield */}
+          <input
+            type="text"
+            className="submenu-input"
+            placeholder="Last Name"
+            value={localLastName}
+            onChange={(e) => setLocalLastName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onLastNameFilterChange(localLastName);
+              }
+            }}
+          />
         </div>
       )}
     </div>

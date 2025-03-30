@@ -5,7 +5,6 @@ import Home from './pages/Home'
 import Login from './pages/Login2'
 import TextDownload from './pages/textDownload'
 import Header from './components/header'
-import Footer from './components/footer'
 import Sidebar from './components/sidebar'
 
 const App = () => {
@@ -16,7 +15,6 @@ const App = () => {
         <Route path="/Login2" element={<Login />} />
         <Route path="/textDownload" element={<TextDownload />} />
         <Route path="/header" element={<Header />} />
-        <Route path="/footer" element={<Footer />} />
         <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
     </Router>
