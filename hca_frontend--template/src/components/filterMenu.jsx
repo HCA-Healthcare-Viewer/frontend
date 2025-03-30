@@ -1,7 +1,5 @@
 // leaving this blank for now, work on once Josh is done with data stuff
-
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 /*
 @param props.filter_type: string, the type of filter to be applied and the name of the filter to be shown as a string
@@ -26,22 +24,32 @@ export default function FilterMenu({ filter_type, position }) {
         gridTemplateRows: 'auto auto',
         gap: '8px',
         width: '100%',
+        backgroundColor: '#FFFFFF',
+        padding: '0.25rem 0.5rem 0.5rem 0.5rem',
+        borderRadius: '5px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         ...getMarginStyle()
     }}>
       <label htmlFor={`filter-${filter_type}`}>{filter_type}:</label>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '3fr 1fr',
-        gap: '8px'
+        gap: '8px',
       }}>
         <input
           id={`filter-${filter_type}`}
           type="text"
           placeholder={`Enter ${filter_type.toLowerCase()} to filter...`}
+          style={{
+            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.05)'
+          }}
         />
         <button onClick={() => {
           // TODO: Functionality will be implemented later
           console.log(`Filtering by ${filter_type}`);
+        }}
+        style={{
+          boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)'
         }}>
           Filter
         </button>
