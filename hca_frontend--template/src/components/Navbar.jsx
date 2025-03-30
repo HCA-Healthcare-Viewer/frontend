@@ -6,22 +6,24 @@ const Navbar = () => {
     <nav style={{ 
       background: '#add6ff', 
       color: '#27262c', 
-      padding: '1rem 2rem',
-      borderRadius: '25px',
+      padding: '0.5rem 1rem',
+      borderRadius: '10px',
       display: 'flex',
       justifyContent: 'flex-end',
       boxShadow: '0 4px 8px rgba(83, 150, 211, 0.5)'
     }}>
       <Link to="/" style={{ 
         color: '#27262c', 
-        marginRight: '1.5rem',
+        paddingRight: '.5rem',
         textDecoration: 'none',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        borderRight: '1px solid black'
       }}>Home</Link>
       <Link to="/login" style={{ 
         color: '#27262c',
         textDecoration: 'none',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        paddingLeft: '.5rem'
       }}>Login</Link>
     </nav>
   )

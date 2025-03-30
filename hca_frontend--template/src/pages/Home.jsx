@@ -2,6 +2,9 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import '../pages/Home.css';
+import FilterMenu from '../components/filterMenu';
+
+// Fix the home page so that we don't have to scroll at all
 
 export default function Home() {
     return (
@@ -22,12 +25,12 @@ export default function Home() {
                             onChange={() => {}}
                         />
                     </div>
-                    
-                    {/* <button type="button" onClick=insert function here for button functionality >Deidentify</button> */}
                 </div>
                 <div id="main-content">
                     <div id="filter-bar">
-                        filter bar
+                        <FilterMenu filter_type="Message Control ID" position="first" />
+                        <FilterMenu filter_type="MRN" position="middle" />
+                        <FilterMenu filter_type="Last Name" position="last" />
                     </div>
                     <div id="message-display">
                         insert messages here
