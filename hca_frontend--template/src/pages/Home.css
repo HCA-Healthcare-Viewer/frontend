@@ -67,7 +67,6 @@ header h2 {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     height: 10%;
-    border: 1px solid yellow;
     margin-bottom: 5px;
     background-color: #eaeaea;
     color: #27262c;
@@ -80,9 +79,27 @@ header h2 {
 #message-display {
     padding: 1rem;
     height: 90%;
-    border: 1px solid yellow;
     background-color: #eaeaea;
     color: #27262c;
     margin-bottom: 5px;
     border-radius: 10px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    max-height: 90%; /* Ensures the container doesn't grow beyond its allocated space */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #add6ff #eaeaea; /* For Firefox */
+}
+
+/* Styling for webkit browsers (Chrome, Safari, etc.) */
+#message-display::-webkit-scrollbar {
+    width: 8px;
+}
+
+#message-display::-webkit-scrollbar-track {
+    background: #eaeaea;
+    border-radius: 5px;
+}
+
+#message-display::-webkit-scrollbar-thumb {
+    background-color: #add6ff;
+    border-radius: 5px;
 }

@@ -22,26 +22,28 @@ export default function FilterMenu({ filter_type, position }) {
     <div style={{
         display: 'grid',
         gridTemplateRows: 'auto auto',
-        gap: '8px',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
         width: '100%',
         backgroundColor: '#FFFFFF',
-        padding: '0.25rem 0.5rem 0.5rem 0.5rem',
         borderRadius: '5px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         ...getMarginStyle()
     }}>
-      <label htmlFor={`filter-${filter_type}`}>{filter_type}:</label>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '3fr 1fr',
-        gap: '8px',
-      }}>
+      <label style={{
+        gridColumn: '1/4',
+        gridRow: '1/2',
+        marginLeft: '0.25rem',
+      }}htmlFor={`filter-${filter_type}`}>{filter_type}:</label>
         <input
           id={`filter-${filter_type}`}
           type="text"
           placeholder={`Enter ${filter_type.toLowerCase()} to filter...`}
           style={{
-            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.05)'
+            gridRow: '2/3',
+            gridColumn: '1/4',
+            marginLeft: '0.1rem',
+            marginRight: '0.25rem',
+            marginBottom: '0.1rem',
           }}
         />
         <button onClick={() => {
@@ -49,11 +51,14 @@ export default function FilterMenu({ filter_type, position }) {
           console.log(`Filtering by ${filter_type}`);
         }}
         style={{
+          gridColumn: '4/5',
+          gridRow: '2/3',
+          marginRight: '0.1rem',
+          marginBottom: '0.1rem',
           boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)'
         }}>
           Filter
         </button>
       </div>
-    </div>
   );
 }

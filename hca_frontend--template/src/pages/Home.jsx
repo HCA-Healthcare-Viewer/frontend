@@ -54,7 +54,6 @@ export default function Home() {
         </div>
         <div id="main-content">
           <div id="filter-bar">
-            {/* Uncomment and use FilterMenu components as needed */}
             <FilterMenu filter_type="Message Control ID" position="first" />
             <FilterMenu filter_type="MRN" position="middle" />
             <FilterMenu filter_type="Last Name" position="last" />
