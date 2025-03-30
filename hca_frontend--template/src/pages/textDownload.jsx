@@ -63,11 +63,13 @@ const useStyles = makeStyles({
         '& .MuiTablePagination-displayedRows': {
             color: '#FF69B4',                           // Pagination Text Color (Pink)
         },
-
         // Pagination Arrows (< >):
         '& .MuiTablePagination-actions button': {
             color: '#00FF00',                           // Pagination Arrow Color (Green)
         },
+        '& .MuiDataGrid-footerContainer': {
+            backgroundColor: '#AAAAAA',                 // DataGrid Footer Background Color (Gray)
+},
     },
 
     // Header CSS Styles (MATERIAL UI)
