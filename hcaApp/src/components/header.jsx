@@ -7,7 +7,7 @@ const Header = () => {
       sx={{
         width: '100%',
         marginBottom: '10px',
-        backgroundColor: '#27262C', // HCA Healthcare Navy
+        backgroundColor: '#27262C',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -45,7 +45,7 @@ const Header = () => {
             fontWeight: 800,
           }}
         >
-          HCA Healthcare Viewer
+          HCA HL7 Message Viewer
         </Typography>
       </Box>
     </Box>
