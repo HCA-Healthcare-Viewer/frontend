@@ -18,7 +18,7 @@
   
   #wrapper {
     width: 100%;
-    height: 93vh;
+    height: 91vh;
     display: flex;
   }
   
@@ -52,6 +52,9 @@
     max-height: 100%;
     scrollbar-width: thin;
     scrollbar-color: #add6ff #eaeaea;
+    box-shadow: 0 4px 12px rgba(173, 214, 255, 0.5);
+    position: relative;
+    z-index: 40;
   }
   
   /* Message display & item styles */

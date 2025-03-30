@@ -6,27 +6,48 @@ const Header = () => {
       component="header"
       sx={{
         width: '100%',
-        backgroundColor: '##03173E', // HCA Healthcare Navy
+        marginBottom: '10px',
+        backgroundColor: '#27262C', // HCA Healthcare Navy
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        padding: '10px 20px',
+        padding: '12.5px 25px',
+        height: 'auto',
+        boxSizing: 'border-box',
+        boxShadow: '0 4px 12px rgba(173, 214, 255, 0.5)',
+        borderRadius: '0 0 10px 10px',
+        position: 'relative',
+        zIndex: 100,
       }}
     >
-      {/* Left: Dashboard Title */}
-      <Typography variant="h" sx={{ fontWeight: 'bold', color: 'white' }}>
-        Dashboard
-      </Typography>
-
-      {/* Right: Profile Image and Name */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      {/* Centered Logo and Title */}
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12.5px',
+        justifyContent: 'center'
+      }}>
         <Avatar
-          src="/Profile_Image_Example.jpg"
-          alt="Profile"
-          sx={{ width: 40, height: 40 }}
+          src="/HCA_Logo.jpg"
+          alt="Logo"
+          sx={{ 
+            width: 50, 
+            height: 50,
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+          }}
         />
-        <Typography sx={{ fontWeight: 'bold', color: 'white' }}>
-          John Doe
+        <Typography 
+          sx={{ 
+            fontWeight: 'bold', 
+            color: 'white',
+            fontSize: '1.125rem',
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)',
+            letterSpacing: '0.8px',
+            color: '#ffffff',
+            fontWeight: 800,
+          }}
+        >
+          HCA Healthcare Viewer
         </Typography>
       </Box>
     </Box>
