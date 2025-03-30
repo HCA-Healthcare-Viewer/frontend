@@ -1,0 +1,4 @@
+*.js
+*.map
+*.mts
+/hca_frontend--template/node_modules
