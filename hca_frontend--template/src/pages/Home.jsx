@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import '../pages/Home.css';
 import FilterMenu from '../components/filterMenu';
@@ -7,6 +7,8 @@ import Message from '../components/message';
 export default function Home() {
   const [messages, setMessages] = useState(null);
   const [error, setError] = useState(null);
+  // New state to keep track of how many messages to display
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -29,13 +31,15 @@ export default function Home() {
       const data = await response.json();
       setMessages(data);
       setError(null);
+      // Reset visibleCount when new messages are loaded
+      setVisibleCount(10);
     } catch (err) {
       console.error('Error uploading file:', err);
       setError(err.message);
     }
   };
 
-  // Function to render messages by iterating over the JSON data
+  // Function to render messages by iterating over the JSON data with lazy loading
   const renderMessages = () => {
     if (!messages) return 'Upload a file to view messages';
     
@@ -43,7 +47,7 @@ export default function Home() {
     if (Array.isArray(messages)) {
       return (
         <div className="messages-container">
-          {messages.map((message, index) => (
+          {messages.slice(0, visibleCount).map((message, index) => (
             <Message 
               key={index} 
               data={message} 
@@ -55,9 +59,10 @@ export default function Home() {
     } 
     // If messages is an object with keys
     else if (typeof messages === 'object' && messages !== null) {
+      const entries = Object.entries(messages);
       return (
         <div className="messages-container">
-          {Object.entries(messages).map(([key, value], index) => (
+          {entries.slice(0, visibleCount).map(([key, value], index) => (
             <Message 
               key={key} 
               data={value} 
@@ -71,6 +76,28 @@ export default function Home() {
     // Fallback for other data types
     return <pre>{JSON.stringify(messages, null, 2)}</pre>;
   };
+
+  // useEffect to implement lazy loading on scroll
+  useEffect(() => {
+    const scrollContainer = document.getElementById('message-display');
+    
+    const handleScroll = () => {
+      if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 100) {
+        setVisibleCount(prevCount => prevCount + 50);
+      }
+    };
+  
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+    }
+    
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+  
 
   return (
     <div className="home-container">
