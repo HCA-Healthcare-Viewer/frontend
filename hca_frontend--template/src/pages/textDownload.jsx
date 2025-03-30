@@ -9,48 +9,68 @@ import { makeStyles } from '@mui/styles';
 // Custom row/cell Color
 const useStyles = makeStyles({
     root: {
+        // CheckBox
         '& .MuiDataGrid-columnHeaderCheckbox': {
-            backgroundColor: '#0000FF',
-            color: '#FFFF00',
+            backgroundColor: '#0000FF',                 // Column Header Checkbox Background Color (Blue)
         },
         '& .MuiDataGrid-cellCheckbox': {
-            backgroundColor: '#FFA500',
+            backgroundColor: '#FFA500',                 // Cell Checkbox Background Color (Orange)
         },
         '& .MuiCheckbox-root.Mui-checked': {
-            color: '#FFFF00 !important',
+            color: '#FFFF00 !important',                // Clicked Checkbox Color (Yellow)
         },
+
+        // Header Columns:
         '& .custom-header': {
-            backgroundColor: '#FF0000',
-            color: '#FFFFFF',
+            backgroundColor: '#FF0000',                 // Header Background Color (Red)
+            color: '#FFFFFF',                           // Header Text Color (White)
         },
+
+        // Data Grid Cells:
         '& .MuiDataGrid-cell[data-field="id"]': {
-            backgroundColor: '#AAAAAA',
-            color: '#000000',
+            backgroundColor: '#AAAAAA',                 // ID Column Background Color (Gray)
+            color: '#000000',                           // ID Column Text Color (Black)
         },
-        '& .original-cell': {
-            backgroundColor: '#FFFF00',
-            color: '#AAAAAA',
+        '& .message-id-cell': {
+            backgroundColor: '#FFFF00',                 // Message Control ID Cell Background Color (Yellow)
+            color: '#AAAAAA',                           // Message Control ID Cell Text Color (Gray)
         },
-        '& .deid-cell': {
-            backgroundColor: '#008000',
-            color: '#0000FF',
+        '& .mrn-cell': {
+            backgroundColor: '#008000',                 // Medical Record Number Cell Background Color (Green)
+            color: '#0000FF',                           // Medical Record Number Cell Text Color (Blue)
         },
+        '& .last-name-cell': {
+            backgroundColor: '#FFA500',                 // Last Name Cell Background Color (Orange)
+            color: '#000000',                           // Last Name Cell Text Color (White)
+        },
+
+        // Sort Arrow Icon:
         '& .MuiDataGrid-sortIcon': {
-            color: '#FFFFFF',
+            color: '#000000',                           // Sort (Arrow) Icon Color (Black)
         },
+
+        // Menu Icon (Triple Dot):
         '& .MuiDataGrid-menuIconButton': {
-            color: '#FFFFFF',
+            color: '#000000',                           // Menu Icon Color (Black)
         },
+
+        // After Clicking the Checkbox (## Rows Selected):
         '& .MuiDataGrid-selectedRowCount': {
-            color: '#00FFFF',
+            color: '#00FFFF',                           // Selected Row Count Color (Cyan)
         },
+
+        // Pagination (# - ## of ##):
         '& .MuiTablePagination-displayedRows': {
-            color: '#FF69B4',
+            color: '#FF69B4',                           // Pagination Text Color (Pink)
         },
+
+        // Pagination Arrows (< >):
         '& .MuiTablePagination-actions button': {
-            color: '#00FF00',
+            color: '#00FF00',                           // Pagination Arrow Color (Green)
         },
     },
+
+    // Header CSS Styles (MATERIAL UI)
     header: {
         padding: '1rem',
         height: '8vh',
@@ -91,7 +111,7 @@ const useStyles = makeStyles({
     },
 });
 
-// Responsive Columns
+// Columns Header DataGrid (ID, Message Control ID, Medical Record Number, Last Name)
 const columns = [
     {
         field: 'id',
@@ -101,42 +121,47 @@ const columns = [
         headerClassName: 'custom-header',
     },
     {
-        field: 'originalTxt',
-        headerName: 'Original Text',
+        field: 'messageControlId',
+        headerName: 'Message Control ID',
         flex: 1,
         minWidth: 250,
         headerClassName: 'custom-header',
-        cellClassName: 'original-cell',
+        cellClassName: 'message-id-cell',
     },
     {
-        field: 'deIdentifiedTxt',
-        headerName: 'De-Identified Text',
+        field: 'medicalRecordNumber',
+        headerName: 'Medical Record Number',
         flex: 1,
         minWidth: 250,
         headerClassName: 'custom-header',
-        cellClassName: 'deid-cell',
+        cellClassName: 'mrn-cell',
+    },
+    {
+        field: 'lastName',
+        headerName: 'Last Name',
+        flex: 0.7,
+        minWidth: 150,
+        headerClassName: 'custom-header',
+        cellClassName: 'last-name-cell',
     },
 ];
 
-
-
-
+// Rows DataGrid (Cells) (ID, Message Control ID, Medical Record Number, Last Name)
 const rows = [
-    { id: 1, originalTxt: 'MSH|^~&|MegaReg|', deIdentifiedTxt: 'SuperOE|XYZImgCtr|20060529090131-0500|' },
-    { id: 2, originalTxt: 'OBX|1|NM|^Body Height||1.80|m^Meter^ISO+||N|||F', deIdentifiedTxt: 'OBX|2|NM|^Body Weight||79|kg^Kilogram^ISO+||N|||F' },
-    { id: 3, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
-    { id: 4, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
-    { id: 5, originalTxt: 'PID|1||123456789^^^MegaReg', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
-    { id: 6, originalTxt: 'MSH|^~&|MegaReg|', deIdentifiedTxt: 'SuperOE|XYZImgCtr|20060529090131-0500|' },
-    { id: 7, originalTxt: 'OBX|1|NM|^Body Height||1.80|m^Meter^ISO+||N|||F', deIdentifiedTxt: 'OBX|2|NM|^Body Weight||79|kg^Kilogram^ISO+||N|||F' },
-    { id: 8, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
-    { id: 9, originalTxt: 'EVN||200605290901||||200605290900', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
-    { id: 10, originalTxt: 'PID|1||123456789^^^MegaReg', deIdentifiedTxt: 'PID|2||987654321^^^SuperOE' },
+    // Test Data (Comment and Uncomment to use)
+    { id: 1, messageControlId: 'MSH|^~&|MegaReg|', medicalRecordNumber: 'SuperOE|XYZImgCtr|20060529090131-0500|', lastName: 'Smith' },
+    { id: 2, messageControlId: 'OBX|1|NM|^Body Height||1.80|m^Meter^ISO+||N|||F', medicalRecordNumber: 'OBX|2|NM|^Body Weight||79|kg^Kilogram^ISO+||N|||F', lastName: 'Brown' },
+    { id: 3, messageControlId: 'EVN||200605290901||||200605290900', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Garcia' },
+    { id: 4, messageControlId: 'EVN||200605290901||||200605290900', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Lee' },
+    { id: 5, messageControlId: 'PID|1||123456789^^^MegaReg', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Patel' },
+    { id: 6, messageControlId: 'MSH|^~&|MegaReg|', medicalRecordNumber: 'SuperOE|XYZImgCtr|20060529090131-0500|', lastName: 'Walker' },
+    { id: 7, messageControlId: 'OBX|1|NM|^Body Height||1.80|m^Meter^ISO+||N|||F', medicalRecordNumber: 'OBX|2|NM|^Body Weight||79|kg^Kilogram^ISO+||N|||F', lastName: 'Khan' },
+    { id: 8, messageControlId: 'EVN||200605290901||||200605290900', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Nguyen' },
+    { id: 9, messageControlId: 'EVN||200605290901||||200605290900', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Wong' },
+    { id: 10, messageControlId: 'PID|1||123456789^^^MegaReg', medicalRecordNumber: 'PID|2||987654321^^^SuperOE', lastName: 'Ali' },
 ];
 
-
-
-
+// Main Component
 export default function TextDownload() {
     const classes = useStyles();
 
@@ -172,7 +197,9 @@ export default function TextDownload() {
                             mb: 2,
                         }}
                     >
-                        <Typography variant="h6">Original vs De-Identified</Typography>
+                        <Typography variant="h6">
+                            Message Control ID, Medical Record Number & Last Name
+                        </Typography>
                         <Button
                             variant="contained"
                             color="secondary"

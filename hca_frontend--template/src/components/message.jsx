@@ -37,6 +37,7 @@ function field(config) {
     };
 }
 
-export default function Message() {
+
+export default function Message(config) {
     // pass
 }
