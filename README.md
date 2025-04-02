@@ -1,4 +1,4 @@
-# HL7-Deidentifier - UA Hackathon 2025
+# UAInnovate25 - Frontend HL7 Parser
 
 An intuitive open-source web dashboard for parsing, visualizing, and comparing HL7 messages, featuring consistent deidentification of Protected Health Information (PHI).
 
