@@ -1,4 +1,4 @@
-# HL7-Deidentifier - UA HACKATHON 2025 SUBMISSION
+# HL7-Deidentifier - UA Hackathon 2025
 
 An intuitive open-source web dashboard for parsing, visualizing, and comparing HL7 messages, featuring consistent deidentification of Protected Health Information (PHI).
 
